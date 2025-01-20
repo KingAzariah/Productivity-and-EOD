@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity and EOD App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e6effc, #d1e0f7);
+            color: #003366;
+        }
+
+        header {
+            background-color: #cc0000;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            margin: 2rem auto;
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #003366;
+        }
+
+        select, input, button, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+        }
+
+        select {
+            background-color: #f5faff;
+            color: #003366;
+        }
+
+        input {
+            background-color: #f0f5ff;
+            color: #003366;
+            width: 100%;
+        }
+
+        button {
+            background-color: #004990;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #003366;
+        }
+
+        textarea {
+            background-color: #f0f5ff;
+            color: #003366;
+            resize: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #e6effc;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        li button {
+            width: 20px;
+            height: 20px;
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            border-radius: 4px;
+        }
+
+        li button:hover {
+            background-color: #990000;
+        }
+
+        #totalTime {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+            color: #003366;
+        }
+
+        #totalTime.negative {
+            color: #cc0000;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: #ffe6e6;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .floating-elements.one {
+            top: 10%;
+            left: -5%;
+        }
+
+        .floating-elements.two {
+            top: 50%;
+            right: -10%;
+        }
+
+        .floating-elements.three {
+            bottom: 10%;
+            left: 20%;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            label {
+                font-size: 1rem;
+            }
+
+            select, input, button, textarea {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+
+            li {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Productivity & EOD Tracker
+    </header>
+
+    <div class="container">
+        <label for="task">Select Task:</label>
+        <select id="task">
+            <option value="">-- Select a Task --</option>
+            <option value="Box Review Tubs|60">Box Review Tubs (60 min)</option>
+            <option value="Box Review ECM|1">Box Review ECM (1 min)</option>
+            <option value="Mailroom 400 Full Tray|120">Mailroom 400 Full Tray (120 min)</option>
+            <option value="Mailroom 400 .75 Tray|90">Mailroom 400 .75 Tray (90 min)</option>
+            <option value="Mailroom 400 .50 Tray|60">Mailroom 400 .50 Tray (60 min)</option>
+            <option value="Mailroom 400 .25 Tray|30">Mailroom 400 .25 Tray (30 min)</option>
+            <option value="Mailroom 400 Full Tub|90">Mailroom 400 Full Tub (90 min)</option>
+            <option value="Mailroom 400 .75 Tub|68">Mailroom 400 .75 Tub (68 min)</option>
+            <option value="Mailroom 400 .50 Tub|45">Mailroom 400 .50 Tub (45 min)</option>
+            <option value="Mailroom 400 .25 Tub|23">Mailroom 400 .25 Tub (23 min)</option>
+            <option value="Mailroom 500 Full Tray|105">Mailroom 500 Full Tray (105 min)</option>
+            <option value="Mailroom 500 .75 Tray|79">Mailroom 500 .75 Tray (79 min)</option>
+            <option value="Mailroom 500 .50 Tray|53">Mailroom 500 .50 Tray (53 min)</option>
+            <option value="Mailroom 500 .25 Tray|26">Mailroom 500 .25 Tray (26 min)</option>
+            <option value="Mailroom 500 Full Tub|120">Mailroom 500 Full Tub (120 min)</option>
+            <option value="Mailroom 500 .75 Tub|90">Mailroom 500 .75 Tub (90 min)</option>
+            <option value="Mailroom 500 .50 Tub|60">Mailroom 500 .50 Tub (60 min)</option>
+            <option value="Mailroom 500 .25 Tub|30">Mailroom 500 .25 Tub (30 min)</option>
+            <option value="Agencies|1">Agencies (1 min)</option>
+            <option value="Blue Books|4">Blue Books (4 min)</option>
+            <option value="Tracking|90">Tracking (90 min)</option>
+            <option value="eOPF ***Minutes Spent|1">eOPF ***Minutes Spent (1 min)</option>
+            <option value="**MONDAY ONLY TRACKING|150">**MONDAY ONLY TRACKING (150 min)</option>
+            <option value="FMLA ***Minutes Spent|1">FMLA ***Minutes Spent (1 min)</option>
+            <option value="Morning Mail Sort|1">Morning Mail Sort (1 min)</option>
+            <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
+            <option value="Afternoon Mail ( )|1">Afternoon Mail ( ) (1 min)</option>
+            <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
+            <option value="Faxes|60">Faxes (60 min)</option>
+            <option value="Sweeps|30">Sweeps (30 min)</option>
+        </select>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" placeholder="" min="1">
+
+        <button id="addTask">Add Task</button>
+
+        <h2>Your Tasks:</h2>
+        <ul id="taskList"></ul>
+
+        <div id="totalTime">435 minutes remaining</div>
+
+        <label for="eodReport">EOD Report:</label>
+        <textarea id="eodReport" rows="6" readonly></textarea>
+
+        <button id="saveReport">Save and Send Report</button>
+    </div>
+
+    <div class="floating-elements one"></div>
+    <div class="floating-elements two"></div>
+    <div class="floating-elements three"></div>
+
+    <script>
+        const taskDropdown = document.getElementById('task');
+        const quantityInput = document.getElementById('quantity');
+        const addTaskButton = document.getElementById('addTask');
+        const taskList = document.getElementById('taskList');
+        const totalTimeDisplay = document.getElementById('totalTime');
+        const eodReport = document.getElementById('eodReport');
+        const saveReportButton = document.getElementById('saveReport');
+
+        let totalTime = 435;
+        let tasks = [];
+
+        addTaskButton.addEventListener('click', () => {
+            const selectedTask = taskDropdown.value;
+            const quantity = parseInt(quantityInput.value);
+
+            if (!selectedTask) {
+                alert('Please select a task!');
+                return;
+            }
+
+            if (quantity < 1 || isNaN(quantity)) {
+                alert('Please enter a valid quantity!');
+                return;
+            }
+
+            const [taskName, taskTime] = selectedTask.split('|');
+
+            const totalTaskTime = parseInt(taskTime) * quantity;
+            tasks.push({ name: taskName, time: totalTaskTime });
+            totalTime -= totalTaskTime;
+
+            updateTotalTimeDisplay();
+            updateTaskList();
+            updateEodReport();
+        });
+
+        const updateTotalTimeDisplay = () => {
+            if (totalTime < 0) {
+                totalTimeDisplay.classList.add('negative');
+                const percentageOver = Math.abs(totalTime) / 435 * 100;
+                totalTimeDisplay.textContent = `${totalTime} minutes (-${percentageOver.toFixed(2)}% over)`;
+            } else {
+                totalTimeDisplay.classList.remove('negative');
+                totalTimeDisplay.textContent = `${totalTime} minutes remaining`;
+            }
+        };
+
+        const updateTaskList = () => {
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const taskItem = document.createElement('li');
+                taskItem.textContent = `${task.name} (${task.time} min)`;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = '✖';
+                deleteButton.addEventListener('click', () => {
+                    totalTime += task.time;
+                    tasks.splice(index, 1);
+                    updateTotalTimeDisplay();
+                    updateTaskList();
+                    updateEodReport();
+                });
+
+                taskItem.appendChild(deleteButton);
+                taskList.appendChild(taskItem);
+            });
+        };
+
+        const updateEodReport = () => {
+            eodReport.value = tasks.map(task => `${task.name} (${task.time} min)`).join('\n');
+        };
+
+        saveReportButton.addEventListener('click', () => {
+            if (tasks.length === 0) {
+                alert('No tasks to save.');
+                return;
+            }
+
+            const reportContent = `EOD Report:\n\n${eodReport.value}\n\nTotal Time: ${totalTimeDisplay.textContent}`;
+            alert('Report saved and sent to management:\n\n' + reportContent);
+        });
+    </script>
+</body>
+</html>
