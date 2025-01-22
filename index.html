@@ -14,7 +14,7 @@
         }
 
         header {
-            background-color: #cc0000;
+            background: linear-gradient(90deg, #003366, #d32f2f);
             color: white;
             padding: 1.5rem;
             text-align: center;
@@ -217,33 +217,39 @@
             <option value="Mailroom 500 .25 Tub|30">Mailroom 500 .25 Tub (30 min)</option>
             <option value="Agencies|1">Agencies (1 min)</option>
             <option value="Blue Books|4">Blue Books (4 min)</option>
-            <option value="Tracking|90">Tracking (1 min)</option>
+            <option value="Tracking|1">Tracking (1 min)</option>
             <option value="eOPF ***Minutes Spent|1">eOPF ***Minutes Spent (1 min)</option>
-            <option value="**MONDAY ONLY TRACKING|150">**MONDAY ONLY TRACKING (1 min)</option>
+            <option value="**MONDAY ONLY TRACKING|150">**MONDAY ONLY TRACKING (150 min)</option>
             <option value="FMLA ***Minutes Spent|1">FMLA ***Minutes Spent (1 min)</option>
             <option value="Morning Mail Sort|1">Morning Mail Sort (1 min)</option>
             <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
             <option value="Afternoon Mail|1">Afternoon Mail (1 min)</option>
             <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
-            <option value="Faxes|60">Faxes (1 min)</option>
+            <option value="Faxes|60">Faxes (60 min)</option>
             <option value="Sweeps|30">Sweeps (30 min)</option>
         </select>
-
+    
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" placeholder="" min="1">
-
+        <input type="number" id="quantity" placeholder="Enter quantity" min="1">
+    
+        <h3>Add New Task</h3>
+        <input type="text" id="newTaskName" placeholder="Task Name">
+        <input type="number" id="newTaskTime" placeholder="Time (min)" min="1">
+        <button id="addNewTask">Add Task to List</button>
+    
         <button id="addTask">Add Task</button>
-
+    
         <h2>Your Tasks:</h2>
         <ul id="taskList"></ul>
-
+    
         <div id="totalTime">435 minutes remaining</div>
-
+    
         <label for="eodReport">EOD Report:</label>
         <textarea id="eodReport" rows="6" readonly></textarea>
-
+    
         <button id="saveReport">Save and Send Report</button>
     </div>
+    
 
     <div class="floating-elements one"></div>
     <div class="floating-elements two"></div>
@@ -257,35 +263,59 @@
         const totalTimeDisplay = document.getElementById('totalTime');
         const eodReport = document.getElementById('eodReport');
         const saveReportButton = document.getElementById('saveReport');
-
+    
         let totalTime = 435;
         let tasks = [];
-
+    
+        // New task inputs
+        const addNewTaskButton = document.getElementById('addNewTask');
+        const newTaskNameInput = document.getElementById('newTaskName');
+        const newTaskTimeInput = document.getElementById('newTaskTime');
+    
+        // Function to add a new task to the dropdown menu
+        addNewTaskButton.addEventListener('click', () => {
+            const taskName = newTaskNameInput.value.trim();
+            const taskTime = parseInt(newTaskTimeInput.value);
+    
+            if (!taskName || isNaN(taskTime) || taskTime < 1) {
+                alert('Please provide a valid task name and time.');
+                return;
+            }
+    
+            const newOption = document.createElement('option');
+            newOption.value = `${taskName}|${taskTime}`;
+            newOption.textContent = `${taskName} (${taskTime} min)`;
+            taskDropdown.appendChild(newOption);
+    
+            newTaskNameInput.value = '';
+            newTaskTimeInput.value = '';
+            alert('Task added to the dropdown menu.');
+        });
+    
         addTaskButton.addEventListener('click', () => {
             const selectedTask = taskDropdown.value;
             const quantity = parseInt(quantityInput.value);
-
+    
             if (!selectedTask) {
                 alert('Please select a task!');
                 return;
             }
-
+    
             if (quantity < 1 || isNaN(quantity)) {
                 alert('Please enter a valid quantity!');
                 return;
             }
-
+    
             const [taskName, taskTime] = selectedTask.split('|');
-
             const totalTaskTime = parseInt(taskTime) * quantity;
             tasks.push({ name: taskName, time: totalTaskTime });
             totalTime -= totalTaskTime;
-
+    
             updateTotalTimeDisplay();
             updateTaskList();
             updateEodReport();
         });
-
+    
         const updateTotalTimeDisplay = () => {
             if (totalTime < 0) {
                 totalTimeDisplay.classList.add('negative');
@@ -296,13 +326,13 @@
                 totalTimeDisplay.textContent = `${totalTime} minutes remaining`;
             }
         };
-
+    
         const updateTaskList = () => {
             taskList.innerHTML = '';
             tasks.forEach((task, index) => {
                 const taskItem = document.createElement('li');
                 taskItem.textContent = `${task.name} (${task.time} min)`;
-
+    
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = '✖';
                 deleteButton.addEventListener('click', () => {
@@ -312,25 +342,26 @@
                     updateTaskList();
                     updateEodReport();
                 });
-
+    
                 taskItem.appendChild(deleteButton);
                 taskList.appendChild(taskItem);
             });
         };
-
+    
         const updateEodReport = () => {
             eodReport.value = tasks.map(task => `${task.name} (${task.time} min)`).join('\n');
         };
-
+    
         saveReportButton.addEventListener('click', () => {
             if (tasks.length === 0) {
                 alert('No tasks to save.');
                 return;
             }
-
+    
             const reportContent = `EOD Report:\n\n${eodReport.value}\n\nTotal Time: ${totalTimeDisplay.textContent}`;
             alert('Report saved and sent to management:\n\n' + reportContent);
         });
     </script>
+    
 </body>
 </html>
