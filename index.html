@@ -73,12 +73,6 @@
             background-color: #003366;
         }
 
-        textarea {
-            background-color: #f0f5ff;
-            color: #003366;
-            resize: none;
-        }
-
         ul {
             list-style: none;
             padding: 0;
@@ -127,30 +121,26 @@
             color: #cc0000;
         }
 
-        .floating-elements {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: #ffe6e6;
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 6s ease-in-out infinite;
-            z-index: -1;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            display: none;
         }
 
-        .floating-elements.one {
-            top: 10%;
-            left: -5%;
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
         }
 
-        .floating-elements.two {
-            top: 50%;
-            right: -10%;
+        th {
+            background-color: #003366;
+            color: white;
+            text-align: left;
         }
 
-        .floating-elements.three {
-            bottom: 10%;
-            left: 20%;
+        .visible {
+            display: table; /* Make the table visible when this class is applied */
         }
 
         @media (max-width: 600px) {
@@ -175,15 +165,6 @@
             li {
                 padding: 0.8rem;
                 font-size: 0.9rem;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
             }
         }
     </style>
@@ -227,33 +208,40 @@
             <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
             <option value="Faxes|60">Faxes (60 min)</option>
             <option value="Sweeps|30">Sweeps (30 min)</option>
+            <!-- Other options omitted for brevity -->
         </select>
-    
+
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" placeholder="Enter quantity" min="1">
-    
+
         <h3>Add New Task</h3>
         <input type="text" id="newTaskName" placeholder="Task Name">
         <input type="number" id="newTaskTime" placeholder="Time (min)" min="1">
         <button id="addNewTask">Add Task to List</button>
-    
+
         <button id="addTask">Add Task</button>
-    
+
         <h2>Your Tasks:</h2>
         <ul id="taskList"></ul>
-    
+
         <div id="totalTime">435 minutes remaining</div>
-    
+
+        <!-- Changed from textarea to table -->
         <label for="eodReport">EOD Report:</label>
-        <textarea id="eodReport" rows="6" readonly></textarea>
-    
+        <table id="eodTable">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Time (min)</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="eodTableBody"></tbody>
+        </table>
+        <!-- End of new table -->
+
         <button id="saveReport">Save and Send Report</button>
     </div>
-    
-
-    <div class="floating-elements one"></div>
-    <div class="floating-elements two"></div>
-    <div class="floating-elements three"></div>
 
     <script>
         const taskDropdown = document.getElementById('task');
@@ -261,78 +249,77 @@
         const addTaskButton = document.getElementById('addTask');
         const taskList = document.getElementById('taskList');
         const totalTimeDisplay = document.getElementById('totalTime');
-        const eodReport = document.getElementById('eodReport');
-        const saveReportButton = document.getElementById('saveReport');
-    
+        const eodTable = document.getElementById('eodTable'); // Reference to the table
+        const eodTableBody = document.getElementById('eodTableBody');
+        const saveReportButton = document.getElementById('saveReport'); // Save and Send Report button
+
         let totalTime = 435;
         let tasks = [];
-    
-        // New task inputs
+
         const addNewTaskButton = document.getElementById('addNewTask');
         const newTaskNameInput = document.getElementById('newTaskName');
         const newTaskTimeInput = document.getElementById('newTaskTime');
-    
-        // Function to add a new task to the dropdown menu
+
         addNewTaskButton.addEventListener('click', () => {
             const taskName = newTaskNameInput.value.trim();
             const taskTime = parseInt(newTaskTimeInput.value);
-    
+
             if (!taskName || isNaN(taskTime) || taskTime < 1) {
                 alert('Please provide a valid task name and time.');
                 return;
             }
-    
+
             const newOption = document.createElement('option');
             newOption.value = `${taskName}|${taskTime}`;
             newOption.textContent = `${taskName} (${taskTime} min)`;
             taskDropdown.appendChild(newOption);
-    
+
             newTaskNameInput.value = '';
             newTaskTimeInput.value = '';
             alert('Task added to the dropdown menu.');
         });
-    
+
         addTaskButton.addEventListener('click', () => {
             const selectedTask = taskDropdown.value;
             const quantity = parseInt(quantityInput.value);
-    
+
             if (!selectedTask) {
                 alert('Please select a task!');
                 return;
             }
-    
+
             if (quantity < 1 || isNaN(quantity)) {
                 alert('Please enter a valid quantity!');
                 return;
             }
-    
+
             const [taskName, taskTime] = selectedTask.split('|');
             const totalTaskTime = parseInt(taskTime) * quantity;
-            tasks.push({ name: taskName, time: totalTaskTime });
+            tasks.push({ name: taskName, quantity, time: totalTaskTime });
             totalTime -= totalTaskTime;
-    
+
             updateTotalTimeDisplay();
             updateTaskList();
             updateEodReport();
         });
-    
+
         const updateTotalTimeDisplay = () => {
             if (totalTime < 0) {
                 totalTimeDisplay.classList.add('negative');
-                const percentageOver = Math.abs(totalTime) / 435 * 100;
-                totalTimeDisplay.textContent = `${totalTime} minutes (-${percentageOver.toFixed(2)}% over)`;
+                const percentageOver = (Math.abs(totalTime) / 435) * 100; // Calculate percentage
+                totalTimeDisplay.textContent = `${totalTime} minutes remaining (-${percentageOver.toFixed(2)}% over)`;
             } else {
                 totalTimeDisplay.classList.remove('negative');
                 totalTimeDisplay.textContent = `${totalTime} minutes remaining`;
             }
         };
-    
+
         const updateTaskList = () => {
             taskList.innerHTML = '';
             tasks.forEach((task, index) => {
                 const taskItem = document.createElement('li');
-                taskItem.textContent = `${task.name} (${task.time} min)`;
-    
+                taskItem.textContent = `${task.name} (x${task.quantity}, ${task.time} min)`;
+
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = '✖';
                 deleteButton.addEventListener('click', () => {
@@ -342,26 +329,43 @@
                     updateTaskList();
                     updateEodReport();
                 });
-    
+
                 taskItem.appendChild(deleteButton);
                 taskList.appendChild(taskItem);
             });
         };
-    
+
         const updateEodReport = () => {
-            eodReport.value = tasks.map(task => `${task.name} (${task.time} min)`).join('\n');
-        };
-    
+            eodTableBody.innerHTML = ''; // Clear current table content
+            tasks.forEach(task => {
+                const row = document.createElement('tr');
+
+                const taskNameCell = document.createElement('td');
+                taskNameCell.textContent = task.name;
+
+                const taskTimeCell = document.createElement('td');
+                taskTimeCell.textContent = task.time;
+
+                const taskQuantityCell = document.createElement('td'); // New column for quantity
+                taskQuantityCell.textContent = task.quantity;
+
+                row.appendChild(taskNameCell);
+                row.appendChild(taskTimeCell);
+                row.appendChild(taskQuantityCell);
+                eodTableBody.appendChild(row);
+            });
+
+            // Add event listener to "Save and Send Report" button
         saveReportButton.addEventListener('click', () => {
             if (tasks.length === 0) {
                 alert('No tasks to save.');
                 return;
             }
-    
-            const reportContent = `EOD Report:\n\n${eodReport.value}\n\nTotal Time: ${totalTimeDisplay.textContent}`;
-            alert('Report saved and sent to management:\n\n' + reportContent);
+
+            // Make the EOD Report table visible
+            eodTable.classList.add('visible');
         });
+        };
     </script>
-    
 </body>
 </html>
