@@ -139,6 +139,15 @@
             text-align: left;
         }
 
+/* Make the Task column smaller */
+th:first-child, td:first-child {
+            width: 30%; /* Adjust width of Task column */
+            padding: 0.4rem 0.6rem; /* Reduce padding */
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Add "..." if the text is too long */
+        }
+
         .visible {
             display: table; /* Make the table visible when this class is applied */
         }
