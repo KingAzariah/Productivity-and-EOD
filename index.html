@@ -139,13 +139,21 @@
             text-align: left;
         }
 
-/* Make the Task column smaller */
-th:first-child, td:first-child {
-            width: 30%; /* Adjust width of Task column */
+
+        /* Make the Task column smaller */
+        th:first-child, td:first-child {
+            width: 5%; /* Adjust width of Task column */
             padding: 0.4rem 0.6rem; /* Reduce padding */
             white-space: nowrap; /* Prevent text wrapping */
             overflow: hidden;
             text-overflow: ellipsis; /* Add "..." if the text is too long */
+        }
+
+        th:nth-child(2), td:nth-child(2),
+        th:nth-child(3), td:nth-child(3) {
+            width: 10%; /* Quantity and Time columns */
+            padding: 0.4rem;
+            text-align: center;
         }
 
         .visible {
