@@ -223,7 +223,7 @@
             <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
             <option value="Afternoon Mail|1">Afternoon Mail (1 min)</option>
             <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
-            <option value="Faxes|60">Faxes (60 min)</option>
+            <option value="Faxes|15">Faxes (15 min)</option>
             <option value="Sweeps|30">Sweeps (30 min)</option>
             <!-- Other options omitted for brevity -->
         </select>
@@ -353,24 +353,25 @@
         };
 
         const updateEodReport = () => {
-            eodTableBody.innerHTML = ''; // Clear current table content
-            tasks.forEach(task => {
-                const row = document.createElement('tr');
+    eodTableBody.innerHTML = '';
+    
+    if (tasks.length > 0) {
+        eodTable.style.display = 'table'; // Show the table when tasks are present
+    } else {
+        eodTable.style.display = 'none'; // Hide if no tasks
+    }
 
-                const taskNameCell = document.createElement('td');
-                taskNameCell.textContent = task.name;
+    tasks.forEach(task => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${task.name}</td>
+            <td>${task.time}</td>
+            <td>${task.quantity}</td>
+        `;
+        eodTableBody.appendChild(row);
+    });
+};
 
-                const taskTimeCell = document.createElement('td');
-                taskTimeCell.textContent = task.time;
-
-                const taskQuantityCell = document.createElement('td'); // New column for quantity
-                taskQuantityCell.textContent = task.quantity;
-
-                row.appendChild(taskNameCell);
-                row.appendChild(taskTimeCell);
-                row.appendChild(taskQuantityCell);
-                eodTableBody.appendChild(row);
-            });
 
             // Add event listener to "Save and Send Report" button
         saveReportButton.addEventListener('click', () => {
@@ -382,7 +383,6 @@
             // Make the EOD Report table visible
             eodTable.classList.add('visible');
         });
-        };
     </script>
 </body>
 </html>
