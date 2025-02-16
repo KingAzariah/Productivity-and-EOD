@@ -354,43 +354,69 @@
 
         const updateEodReport = () => {
     eodTableBody.innerHTML = '';
-    
-    if (tasks.length > 0) {
-        eodTable.style.display = 'table'; // Show the table when tasks are present
-    } else {
-        eodTable.style.display = 'none'; // Hide if no tasks
-    }
+    eodTable.style.display = tasks.length > 0 ? 'table' : 'none'; // 🔹 NEW CODE: Show table only if tasks exist
 
     tasks.forEach(task => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${task.name}</td>
-            <td>${task.time}</td>
-            <td>${task.quantity}</td>
-        `;
+        row.innerHTML = `<td>${task.name}</td><td>${task.time}</td><td>${task.quantity}</td>`;
         eodTableBody.appendChild(row);
     });
 };
 
 
-      copyEodReportButton.addEventListener('click', () => {
-            if (tasks.length === 0) {
-                alert('No tasks to copy.');
-                return;
-            }
 
-            let reportText = 'EOD Report:\n\nTask\tTime (min)\tQuantity\n';
-            tasks.forEach(task => {
-                reportText += `${task.name}\t${task.time}\t${task.quantity}\n`;
-            });
+copyEodReportButton.addEventListener('click', async () => {
+    if (tasks.length === 0) {
+        alert('No tasks to copy.');
+        return;
+    }
 
-            navigator.clipboard.writeText(reportText).then(() => {
-                alert('EOD Report copied to clipboard!');
-            }).catch(err => {
-                alert('Failed to copy the report.');
-                console.error(err);
-            });
-        });
+    // 🔹 NEW CODE: Construct HTML table as a string
+    let reportText = `<table border="1" style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="padding: 5px; background-color: #003366; color: white;">Task</th>
+                <th style="padding: 5px; background-color: #003366; color: white;">Time (min)</th>
+                <th style="padding: 5px; background-color: #003366; color: white;">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+    tasks.forEach(task => {
+        reportText += `<tr>
+            <td style="padding: 5px; border: 1px solid black;">${task.name}</td>
+            <td style="padding: 5px; border: 1px solid black;">${task.time}</td>
+            <td style="padding: 5px; border: 1px solid black;">${task.quantity}</td>
+        </tr>`;
+    });
+
+    reportText += `</tbody></table>`;
+
+    // 🔹 NEW: Use Clipboard API to copy HTML table
+    try {
+        await navigator.clipboard.write([
+            new ClipboardItem({
+                "text/html": new Blob([reportText], { type: "text/html" }),
+                "text/plain": new Blob([reportText.replace(/<[^>]*>?/gm, '')], { type: "text/plain" }) // Plain text fallback
+            })
+        ]);
+        alert("EOD Report copied as a table! Paste it into your document.");
+    } catch (err) {
+        console.error("Clipboard write failed, falling back to textarea copy", err);
+
+        // Fallback: Copy using a hidden textarea
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = reportText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+        
+        alert("EOD Report copied (fallback method). Formatting may be lost.");
+    }
+});
+
+
     </script>
 </body>
 </html>
