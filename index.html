@@ -221,10 +221,14 @@
             <option value="FMLA ***Minutes Spent|1">FMLA ***Minutes Spent (1 min)</option>
             <option value="Morning Mail Sort|1">Morning Mail Sort (1 min)</option>
             <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
-            <option value="Afternoon Mail|1">Afternoon Mail (1 min)</option>
+            <option value="Afternoon Mail|2">Afternoon Mail (2 min)</option>
             <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
             <option value="Faxes|15">Faxes (15 min)</option>
             <option value="Sweeps|30">Sweeps (30 min)</option>
+            <option value="Mailroom 600 Full Tub|120">Mailroom 600 Full Tub (120 min)</option>
+            <option value="Mailroom 600 .75 Tub|90">Mailroom 600 .75 Tub (90 min)</option>
+            <option value="Mailroom 600 .50 Tub|60">Mailroom 600 .50 Tub (60 min)</option>
+            <option value="Mailroom 600 .25 Tub|30">Mailroom 600 .25 Tub (30 min)</option>
             <!-- Other options omitted for brevity -->
         </select>
 
@@ -276,6 +280,25 @@
         const addNewTaskButton = document.getElementById('addNewTask');
         const newTaskNameInput = document.getElementById('newTaskName');
         const newTaskTimeInput = document.getElementById('newTaskTime');
+
+// Enable "Enter" key submission for the quantity input (Add Task)
+quantityInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addTaskButton.click();
+    }
+});
+
+// Enable "Enter" key submission for the new task inputs (Add New Task)
+[newTaskNameInput, newTaskTimeInput].forEach(input => {
+    input.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addNewTaskButton.click();
+        }
+    });
+});
+
 
         addNewTaskButton.addEventListener('click', () => {
             const taskName = newTaskNameInput.value.trim();
