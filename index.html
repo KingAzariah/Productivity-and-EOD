@@ -243,6 +243,8 @@
         <button id="addTask">Add Task</button>
 
         <h2>Your Tasks:</h2>
+        <p id="successMessage" style="display: none; color: green; font-weight: bold;"></p>
+
         <ul id="taskList"></ul>
 
         <div id="totalTime">435 minutes remaining</div>
@@ -280,6 +282,23 @@
         const addNewTaskButton = document.getElementById('addNewTask');
         const newTaskNameInput = document.getElementById('newTaskName');
         const newTaskTimeInput = document.getElementById('newTaskTime');
+        
+
+        const resetInputs = () => {
+    taskDropdown.selectedIndex = 0; // Reset task selection
+    quantityInput.value = ""; // Clear quantity input
+};
+
+// Function to show success message
+const showSuccessMessage = (message) => {
+    const successMessage = document.getElementById('successMessage');
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000); // Hide message after 3 seconds
+};
 
 // Enable "Enter" key submission for the quantity input (Add Task)
 quantityInput.addEventListener("keypress", (event) => {
@@ -289,7 +308,40 @@ quantityInput.addEventListener("keypress", (event) => {
     }
 });
 
+// Modify the "Add Task" button event listener to reset inputs
+addTaskButton.addEventListener('click', () => {
+    const selectedTask = taskDropdown.value;
+    const quantity = parseInt(quantityInput.value);
+
+    if (!selectedTask) {
+        alert('Please select a task!');
+        return;
+    }
+
+    if (quantity < 1 || isNaN(quantity)) {
+        alert('Please enter a valid quantity!');
+        return;
+    }
+
+    const [taskName, taskTime] = selectedTask.split('|');
+    const totalTaskTime = parseInt(taskTime) * quantity;
+    tasks.push({ name: taskName, quantity, time: totalTaskTime });
+    totalTime -= totalTaskTime;
+
+    updateTotalTimeDisplay();
+    updateTaskList();
+    updateEodReport();
+    
+    resetInputs(); // Reset fields after adding the task
+    showSuccessMessage(`✅ Task "${taskName}" added successfully!`);
+});
+
 // Enable "Enter" key submission for the new task inputs (Add New Task)
+const resetNewTaskInputs = () => {
+    newTaskNameInput.value = ""; // Clear task name input
+    newTaskTimeInput.value = ""; // Clear task time input
+};
+
 [newTaskNameInput, newTaskTimeInput].forEach(input => {
     input.addEventListener("keypress", (event) => {
         if (event.key === "Enter") {
@@ -299,49 +351,25 @@ quantityInput.addEventListener("keypress", (event) => {
     });
 });
 
+// Modify the "Add New Task" button event listener to reset inputs
+addNewTaskButton.addEventListener('click', () => {
+    const taskName = newTaskNameInput.value.trim();
+    const taskTime = parseInt(newTaskTimeInput.value);
 
-        addNewTaskButton.addEventListener('click', () => {
-            const taskName = newTaskNameInput.value.trim();
-            const taskTime = parseInt(newTaskTimeInput.value);
+    if (!taskName || isNaN(taskTime) || taskTime < 1) {
+        alert('Please provide a valid task name and time.');
+        return;
+    }
 
-            if (!taskName || isNaN(taskTime) || taskTime < 1) {
-                alert('Please provide a valid task name and time.');
-                return;
-            }
+    const newOption = document.createElement('option');
+    newOption.value = `${taskName}|${taskTime}`;
+    newOption.textContent = `${taskName} (${taskTime} min)`;
+    taskDropdown.appendChild(newOption);
 
-            const newOption = document.createElement('option');
-            newOption.value = `${taskName}|${taskTime}`;
-            newOption.textContent = `${taskName} (${taskTime} min)`;
-            taskDropdown.appendChild(newOption);
+    resetNewTaskInputs(); // Reset new task inputs after adding
+    showSuccessMessage(`✅ New task "${taskName}" added to the list!`);
+});
 
-            newTaskNameInput.value = '';
-            newTaskTimeInput.value = '';
-            alert('Task added to the dropdown menu.');
-        });
-
-        addTaskButton.addEventListener('click', () => {
-            const selectedTask = taskDropdown.value;
-            const quantity = parseInt(quantityInput.value);
-
-            if (!selectedTask) {
-                alert('Please select a task!');
-                return;
-            }
-
-            if (quantity < 1 || isNaN(quantity)) {
-                alert('Please enter a valid quantity!');
-                return;
-            }
-
-            const [taskName, taskTime] = selectedTask.split('|');
-            const totalTaskTime = parseInt(taskTime) * quantity;
-            tasks.push({ name: taskName, quantity, time: totalTaskTime });
-            totalTime -= totalTaskTime;
-
-            updateTotalTimeDisplay();
-            updateTaskList();
-            updateEodReport();
-        });
 
         const updateTotalTimeDisplay = () => {
             if (totalTime < 0) {
