@@ -195,41 +195,63 @@
         <label for="task">Select Task:</label>
         <select id="task">
             <option value="">-- Select a Task --</option>
-            <option value="Box Review Tubs|60">Box Review Tubs (60 min)</option>
-            <option value="Box Review ECM|1">Box Review ECM (1 min)</option>
-            <option value="Mailroom 400 Full Tray|120">Mailroom 400 Full Tray (120 min)</option>
-            <option value="Mailroom 400 .75 Tray|90">Mailroom 400 .75 Tray (90 min)</option>
-            <option value="Mailroom 400 .50 Tray|60">Mailroom 400 .50 Tray (60 min)</option>
-            <option value="Mailroom 400 .25 Tray|30">Mailroom 400 .25 Tray (30 min)</option>
-            <option value="Mailroom 400 Full Tub|90">Mailroom 400 Full Tub (90 min)</option>
-            <option value="Mailroom 400 .75 Tub|68">Mailroom 400 .75 Tub (68 min)</option>
-            <option value="Mailroom 400 .50 Tub|45">Mailroom 400 .50 Tub (45 min)</option>
-            <option value="Mailroom 400 .25 Tub|23">Mailroom 400 .25 Tub (23 min)</option>
-            <option value="Mailroom 500 Full Tray|105">Mailroom 500 Full Tray (105 min)</option>
-            <option value="Mailroom 500 .75 Tray|79">Mailroom 500 .75 Tray (79 min)</option>
-            <option value="Mailroom 500 .50 Tray|53">Mailroom 500 .50 Tray (53 min)</option>
-            <option value="Mailroom 500 .25 Tray|26">Mailroom 500 .25 Tray (26 min)</option>
-            <option value="Mailroom 500 Full Tub|120">Mailroom 500 Full Tub (120 min)</option>
-            <option value="Mailroom 500 .75 Tub|90">Mailroom 500 .75 Tub (90 min)</option>
-            <option value="Mailroom 500 .50 Tub|60">Mailroom 500 .50 Tub (60 min)</option>
-            <option value="Mailroom 500 .25 Tub|30">Mailroom 500 .25 Tub (30 min)</option>
-            <option value="Agencies|1">Agencies (1 min)</option>
-            <option value="Blue Books|4">Blue Books (4 min)</option>
-            <option value="Tracking|1">Tracking (1 min)</option>
-            <option value="eOPF ***Minutes Spent|1">eOPF ***Minutes Spent (1 min)</option>
-            <option value="**MONDAY ONLY TRACKING|150">**MONDAY ONLY TRACKING (150 min)</option>
-            <option value="FMLA ***Minutes Spent|1">FMLA ***Minutes Spent (1 min)</option>
-            <option value="Morning Mail Sort|1">Morning Mail Sort (1 min)</option>
-            <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
-            <option value="Afternoon Mail|2">Afternoon Mail (2 min)</option>
-            <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
-            <option value="Faxes|15">Faxes (15 min)</option>
-            <option value="Sweeps|30">Sweeps (30 min)</option>
-            <option value="Mailroom 600 Full Tub|120">Mailroom 600 Full Tub (120 min)</option>
-            <option value="Mailroom 600 .75 Tub|90">Mailroom 600 .75 Tub (90 min)</option>
-            <option value="Mailroom 600 .50 Tub|60">Mailroom 600 .50 Tub (60 min)</option>
-            <option value="Mailroom 600 .25 Tub|30">Mailroom 600 .25 Tub (30 min)</option>
-            <!-- Other options omitted for brevity -->
+
+            <optgroup label="Sortation & Tracking">
+                <option value="Morning Mail Sort|1">Morning Mail Sort (1 min)</option>
+                <option value="Afternoon Mail Sort|1">Afternoon Mail Sort (1 min)</option>
+                <option value="Afternoon Mail|2">Afternoon Mail (2 min)</option>
+                <option value="Tracking|1">Tracking (1 min)</option>
+            </optgroup>
+
+            <optgroup label="Faxes & Sweeps">
+                <option value="Faxes|15 mins">Faxes (.25")</option>
+                <option value="Faxes|30 mins">Faxes (.50")</option>
+                <option value="Faxes|45 mins">Faxes (.75")</option>
+                <option value="Faxes|60 mins">Faxes (1")</option>
+                <option value="Sweeps|30">Sweeps (30 min)</option>
+            </optgroup>
+
+            <optgroup label="400 Benefits">
+                <option value="Mailroom 400 Full Tray|120">Mailroom 400 Full Tray (120 min)</option>
+                <option value="Mailroom 400 .75 Tray|90">Mailroom 400 .75 Tray (90 min)</option>
+                <option value="Mailroom 400 .50 Tray|60">Mailroom 400 .50 Tray (60 min)</option>
+                <option value="Mailroom 400 .25 Tray|30">Mailroom 400 .25 Tray (30 min)</option>
+                <option value="Mailroom 400 Full Tub|90">Mailroom 400 Full Tub (90 min)</option>
+                <option value="Mailroom 400 .75 Tub|68">Mailroom 400 .75 Tub (68 min)</option>
+                <option value="Mailroom 400 .50 Tub|45">Mailroom 400 .50 Tub (45 min)</option>
+                <option value="Mailroom 400 .25 Tub|23">Mailroom 400 .25 Tub (23 min)</option>
+            </optgroup>
+
+            <optgroup label="500 Retirements">
+                <option value="Mailroom 500 Full Tray|105">Mailroom 500 Full Tray (105 min)</option>
+                <option value="Mailroom 500 .75 Tray|79">Mailroom 500 .75 Tray (79 min)</option>
+                <option value="Mailroom 500 .50 Tray|53">Mailroom 500 .50 Tray (53 min)</option>
+                <option value="Mailroom 500 .25 Tray|26">Mailroom 500 .25 Tray (26 min)</option>
+                <option value="Mailroom 500 Full Tub|120">Mailroom 500 Full Tub (120 min)</option>
+                <option value="Mailroom 500 .75 Tub|90">Mailroom 500 .75 Tub (90 min)</option>
+                <option value="Mailroom 500 .50 Tub|60">Mailroom 500 .50 Tub (60 min)</option>
+                <option value="Mailroom 500 .25 Tub|30">Mailroom 500 .25 Tub (30 min)</option>
+            </optgroup>
+
+            <optgroup label="600 VERA">
+                <option value="Mailroom 600 Full Tub|120">Mailroom 600 Full Tub (120 min)</option>
+                <option value="Mailroom 600 .75 Tub|90">Mailroom 600 .75 Tub (90 min)</option>
+                <option value="Mailroom 600 .50 Tub|60">Mailroom 600 .50 Tub (60 min)</option>
+                <option value="Mailroom 600 .25 Tub|30">Mailroom 600 .25 Tub (30 min)</option>
+            </optgroup>
+
+            <optgroup label="900 FMLA">
+                <option value="FMLA|1">FMLA (1 min)</option>
+            </optgroup>
+
+            <optgroup label="Misc. Mailroom Duties">
+                <option value="Box Review Tubs|60">Box Review Tubs (60 min)</option>
+                <option value="Box Review ECM|1">Box Review ECM (1 min)</option>
+                <option value="Agencies|1">Agencies (1 min)</option>
+                <option value="Blue Books|4">Blue Books (4 min)</option>
+                <option value="eOPF ***Minutes Spent|1">eOPF (1 min)</option>
+                <option value="Mailroom Meeting|1">Mailroom Meeting (1 min)</option>
+            </optgroup>
         </select>
 
         <label for="quantity">Quantity:</label>
@@ -256,7 +278,7 @@
                 <tr>
                     <th>Task</th>
                     <th>Time (min)</th>
-                    <th>Quantity</th>
+                    <th>Quantity/Inches</th>
                 </tr>
             </thead>
             <tbody id="eodTableBody"></tbody>
