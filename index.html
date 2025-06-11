@@ -6,6 +6,12 @@
     <link rel="icon" type="image/jpeg" href="images/prod_eod_logo copy.jpg.JPG" />
     <title>Productivity and EOD App</title>
     <style>
+        .styled-select option.divider {
+            font-weight: bold;
+            text-align: center;
+            background-color: #e0e0e0;
+            color: #000;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -203,7 +209,9 @@
                 <option value="Afternoon Mail|2">Afternoon Mail (2 min)</option>
                 <option value="Tracking|1">Tracking (1 min)</option>
             </optgroup>
-
+            
+            <option disabled class="divider">__________________________</option>
+            
             <optgroup label="Faxes & Sweeps">
                 <option value="Faxes|15 mins">Faxes (.25")</option>
                 <option value="Faxes|30 mins">Faxes (.50")</option>
@@ -212,6 +220,8 @@
                 <option value="Sweeps|30">Sweeps (30 min)</option>
             </optgroup>
 
+            <option disabled class="divider">__________________________</option>
+                
             <optgroup label="400 Benefits">
                <optgroup label="Trays"> 
                 <option value="Mailroom 400 Full Tray|120">Mailroom 400 Full Tray (120 min)</option>
@@ -219,6 +229,8 @@
                 <option value="Mailroom 400 .50 Tray|60">Mailroom 400 .50 Tray (60 min)</option>
                 <option value="Mailroom 400 .25 Tray|30">Mailroom 400 .25 Tray (30 min)</option>
             </optgroup>
+
+            <option disabled class="divider">__________________________</option>
             
             <optgroup label="Tubs">
                 <option value="Mailroom 400 Full Tub|90">Mailroom 400 Full Tub (90 min)</option>
@@ -227,6 +239,8 @@
                 <option value="Mailroom 400 .25 Tub|23">Mailroom 400 .25 Tub (23 min)</option>
             </optgroup>
 
+            <option disabled class="divider">__________________________</option>
+
             <optgroup label="500 Retirements">
                <optgroup label="Trays">  
                 <option value="Mailroom 500 Full Tray|105">Mailroom 500 Full Tray (105 min)</option>
@@ -234,6 +248,8 @@
                 <option value="Mailroom 500 .50 Tray|53">Mailroom 500 .50 Tray (53 min)</option>
                 <option value="Mailroom 500 .25 Tray|26">Mailroom 500 .25 Tray (26 min)</option>
                </optgroup>
+
+            <option disabled class="divider">__________________________</option>
             
                 <optgroup label="Tubs">
                 <option value="Mailroom 500 Full Tub|120">Mailroom 500 Full Tub (120 min)</option>
@@ -242,6 +258,8 @@
                 <option value="Mailroom 500 .25 Tub|30">Mailroom 500 .25 Tub (30 min)</option>
             </optgroup>
 
+            <option disabled class="divider">__________________________</option>
+
             <optgroup label="600 VERA">
                 <option value="Mailroom 600 Full Tub|120">Mailroom 600 Full Tub (120 min)</option>
                 <option value="Mailroom 600 .75 Tub|90">Mailroom 600 .75 Tub (90 min)</option>
@@ -249,9 +267,13 @@
                 <option value="Mailroom 600 .25 Tub|30">Mailroom 600 .25 Tub (30 min)</option>
             </optgroup>
 
+            <option disabled class="divider">__________________________</option>
+
             <optgroup label="900 FMLA">
                 <option value="FMLA|1">FMLA (1 min)</option>
             </optgroup>
+
+            <option disabled class="divider">__________________________</option>
 
             <optgroup label="Misc. Mailroom Duties">
                 <option value="Box Review Tubs|60">Box Review Tubs (60 min)</option>
